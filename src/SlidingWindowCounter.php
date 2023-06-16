@@ -68,7 +68,7 @@ class SlidingWindowCounter
         int $window_size,
         int $observation_period,
         Cache\CounterCache $counter_cache,
-        object $time_keeper = null,
+        Helper\TimeKeeper $time_keeper = null,
         Helper\FrameBuilder $frame_builder = null
     ) {
         if ('' === $cache_name) {
