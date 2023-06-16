@@ -1,0 +1,49 @@
+{
+    "name": "automattic/sliding-window-counter",
+    "description": "Sliding window counter",
+    "license": "GPL-2.0-or-later",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alexey Kopytko",
+            "email": "alexey@kopytko.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "sanmai/pipeline": "^6.8"
+    },
+    "require-dev": {
+        "ext-memcached": "*",
+        "ergebnis/composer-normalize": "^2.8",
+        "friendsofphp/php-cs-fixer": "^3.17",
+        "infection/infection": ">=0.10.5",
+        "johnpbloch/wordpress-core": "^6.2",
+        "phan/phan": ">=1.1",
+        "phpstan/phpstan": ">=0.10",
+        "phpunit/phpunit": ">=9.4",
+        "vimeo/psalm": ">=2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Automattic\\SlidingWindowCounter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Automattic\\SlidingWindowCounter\\": "tests/"
+        },
+        "classmap": [
+            "vendor/johnpbloch/wordpress-core/wp-includes/"
+        ]
+    },
+    "config": {
+        "allow-plugins": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "v0.1.x-dev"
+        }
+    }
+}

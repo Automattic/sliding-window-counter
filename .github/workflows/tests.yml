@@ -1,0 +1,63 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - v*.*
+
+jobs:
+  tests:
+    name: Testing with PHP ${{ matrix.php-version }} ${{ matrix.dependencies }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+        dependencies: ['']
+
+    services:
+      memcached:
+        image: memcached
+        ports:
+          - 11211:11211
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          extensions: memcached
+          tools: composer:v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress ${{ matrix.dependencies }}
+
+      - name: Execute tests
+        run: |
+          php vendor/bin/phpunit
+
+      - name: Execute integration tests
+        run: |
+          php vendor/bin/phpunit --group=integration
