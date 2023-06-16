@@ -46,7 +46,7 @@ class SlidingWindowCounter
     private Cache\CounterCache $counter_cache;
 
     /** @var Helper\TimeKeeper The timekeeper instance. */
-    private object $time_keeper;
+    private Helper\TimeKeeper $time_keeper;
 
     /** @var Helper\FrameBuilder The frame builder. */
     private Helper\FrameBuilder $frame_builder;
@@ -89,6 +89,21 @@ class SlidingWindowCounter
         $this->window_size = $window_size;
         $this->observation_period = $observation_period;
         $this->counter_cache = $counter_cache;
+
+        // Permit duck-typing for the timekeeper by wrapping it with an actual implementation
+        if ($time_keeper !== null && !$time_keeper instanceof Helper\TimeKeeper) {
+            $time_keeper = new class($time_keeper) implements Helper\TimeKeeper {
+                private $time_keeper;
+                public function __construct($time_keeper)
+                {
+                    $this->time_keeper = $time_keeper;
+                }
+                public function getCurrentUnixTime(): int
+                {
+                    return $this->time_keeper->getCurrentUnixTime();
+                }
+            };
+        }
 
         // Optional dependencies
         $this->time_keeper = $time_keeper ?? new class() implements Helper\TimeKeeper {

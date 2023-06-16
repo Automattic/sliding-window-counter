@@ -343,6 +343,28 @@ final class SlidingWindowCounterTest extends TestCase
     }
 
     /**
+     * Test duck typing for timekeeper.
+     * @return void
+     */
+    public function testDuckTypingForTimekeeper(): void
+    {
+        $time_keeper = new class() {
+            public function getCurrentUnixTime(): int
+            {
+                return 27644437;
+            }
+        };
+
+        $counter = new SlidingWindowCounter('testing', 30, 600, new FakeCache(), $time_keeper);
+
+        $this->assertSame(123, $counter->increment('test', 123));
+
+        $this->assertSame([
+            27644430 => 123.0,
+        ], self::getMaterialValues($counter, 'test'));
+    }
+
+    /**
      * @param SlidingWindowCounter $counter The counter instance
      * @param string $bucket_key The bucket key
      * @param null|int $start_time The start time
