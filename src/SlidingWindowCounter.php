@@ -42,11 +42,11 @@ class SlidingWindowCounter
     /** @var int Maximum number of seconds for the buckets to last in cache. */
     private int $observation_period;
 
-    /** @var \Automattic\SlidingWindowCounter\Cache\CounterCache The counter cache instance */
+    /** @var Cache\CounterCache The counter cache instance */
     private Cache\CounterCache $counter_cache;
 
     /** @var Helper\TimeKeeper The timekeeper instance. */
-    private Helper\TimeKeeper $time_keeper;
+    private object $time_keeper;
 
     /** @var Helper\FrameBuilder The frame builder. */
     private Helper\FrameBuilder $frame_builder;
