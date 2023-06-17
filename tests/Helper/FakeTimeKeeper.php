@@ -22,7 +22,7 @@ namespace Tests\Automattic\SlidingWindowCounter\Helper;
 
 use Automattic\SlidingWindowCounter\Helper\TimeKeeper;
 
-class FakeTimeKeeper implements TimeKeeper
+class FakeTimeKeeper extends TimeKeeper
 {
     private int $time;
 

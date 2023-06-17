@@ -20,10 +20,15 @@ declare(strict_types=1);
 
 namespace Automattic\SlidingWindowCounter\Helper;
 
-interface TimeKeeper
+use function time;
+
+class TimeKeeper
 {
     /**
      * A mockable time-getter for the current time.
      */
-    public function getCurrentUnixTime(): int;
+    public function getCurrentUnixTime(): int
+    {
+        return time();
+    }
 }

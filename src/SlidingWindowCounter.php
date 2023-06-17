@@ -26,7 +26,6 @@ use Pipeline\Standard;
 use function is_int;
 use function Pipeline\take;
 use function sprintf;
-use function time;
 
 /**
  * Sliding window counter and time series.
@@ -42,7 +41,7 @@ class SlidingWindowCounter
     /** @var int Maximum number of seconds for the buckets to last in cache. */
     private int $observation_period;
 
-    /** @var \Automattic\SlidingWindowCounter\Cache\CounterCache The counter cache instance */
+    /** @var Cache\CounterCache The counter cache instance */
     private Cache\CounterCache $counter_cache;
 
     /** @var Helper\TimeKeeper The timekeeper instance. */
@@ -91,12 +90,7 @@ class SlidingWindowCounter
         $this->counter_cache = $counter_cache;
 
         // Optional dependencies
-        $this->time_keeper = $time_keeper ?? new class() implements Helper\TimeKeeper {
-            public function getCurrentUnixTime(): int
-            {
-                return time();
-            }
-        };
+        $this->time_keeper = $time_keeper ?? new Helper\TimeKeeper();
 
         $this->frame_builder = $frame_builder ?? new Helper\FrameBuilder($window_size, $observation_period, $this->time_keeper);
     }
