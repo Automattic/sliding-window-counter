@@ -1,5 +1,11 @@
 # Sliding Window Counter
 
+```
+composer install automattic/sliding-window-counter
+```
+
+## What's this all about?
+
 We needed a way to have arbitrary short-lived time series. For example, to tackle a messaging spam problem, we would like to know if the number of statistically suspicious messages sent by users connecting from a specific range of IP addresses exceeds previously observed numbers.
 
 We can use a time series built from logs or database entries to work around this. It requires having a log or a database in the first place, not to mention that calculating the necessary statistics on every request could be expensive. We could back the calculation with a cache, but why don't we use the in-memory cache in the first place? That's what we are going for here.
@@ -24,7 +30,7 @@ But if logical and material frames are not aligned (the end of the last material
 
 And there are many edge cases: for example, if we don't specify the anomaly detection start time, we discard all heading null values. But for relatively rare events, it might make sense to keep every empty frame, so there's an option to specify the start time.
 
-# The API
+## The API
 
 Here's how it should be used:
 
