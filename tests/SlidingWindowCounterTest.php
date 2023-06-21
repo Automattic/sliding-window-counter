@@ -27,7 +27,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Tests\Automattic\SlidingWindowCounter\Cache\FakeCache;
-use Tests\Automattic\SlidingWindowCounter\Helper\FakeTimeKeeper;
+use Tumblr\Chorus\FakeTimeKeeper;
 use function array_keys;
 use function iterator_to_array;
 use function max;

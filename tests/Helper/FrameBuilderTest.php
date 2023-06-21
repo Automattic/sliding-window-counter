@@ -24,6 +24,7 @@ use Automattic\SlidingWindowCounter\Helper\Frame;
 use Automattic\SlidingWindowCounter\Helper\FrameBuilder;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Tumblr\Chorus\FakeTimeKeeper;
 use function max;
 use function min;
 use function Pipeline\take;

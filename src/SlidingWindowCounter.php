@@ -23,6 +23,7 @@ namespace Automattic\SlidingWindowCounter;
 use InvalidArgumentException;
 use Pipeline\Helper\RunningVariance;
 use Pipeline\Standard;
+use Tumblr\Chorus;
 use function is_int;
 use function Pipeline\take;
 use function sprintf;
@@ -44,8 +45,8 @@ class SlidingWindowCounter
     /** @var Cache\CounterCache The counter cache instance */
     private Cache\CounterCache $counter_cache;
 
-    /** @var Helper\TimeKeeper The timekeeper instance. */
-    private Helper\TimeKeeper $time_keeper;
+    /** @var Chorus\TimeKeeper The timekeeper instance. */
+    private Chorus\TimeKeeper $time_keeper;
 
     /** @var Helper\FrameBuilder The frame builder. */
     private Helper\FrameBuilder $frame_builder;
@@ -56,7 +57,7 @@ class SlidingWindowCounter
      * @param string $cache_name the cache name to use for buckets
      * @param int $window_size the size of the sampling window in seconds
      * @param int $observation_period the maximum number of seconds for counters to persist in the cache
-     * @param null|Helper\TimeKeeper $time_keeper the timekeeper instance
+     * @param null|Chorus\TimeKeeper $time_keeper the timekeeper instance
      * @param null|Helper\FrameBuilder $frame_builder the timestamp helper
      *
      * @throws InvalidArgumentException if a blank string is provided for the cache name
@@ -67,7 +68,7 @@ class SlidingWindowCounter
         int $window_size,
         int $observation_period,
         Cache\CounterCache $counter_cache,
-        Helper\TimeKeeper $time_keeper = null,
+        Chorus\TimeKeeper $time_keeper = null,
         Helper\FrameBuilder $frame_builder = null
     ) {
         if ('' === $cache_name) {
@@ -90,7 +91,7 @@ class SlidingWindowCounter
         $this->counter_cache = $counter_cache;
 
         // Optional dependencies
-        $this->time_keeper = $time_keeper ?? new Helper\TimeKeeper();
+        $this->time_keeper = $time_keeper ?? new Chorus\TimeKeeper();
 
         $this->frame_builder = $frame_builder ?? new Helper\FrameBuilder($window_size, $observation_period, $this->time_keeper);
     }
