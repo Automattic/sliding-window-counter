@@ -1,0 +1,123 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - v*.*
+
+jobs:
+  tests:
+    name: Test with PHP ${{ matrix.php-version }} ${{ matrix.dependencies }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+        coverage: ['pcov']
+        dependencies: ['']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: ${{ matrix.coverage }}
+          extensions: memcached
+          tools: composer:v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ matrix.php-version }}-
+            composer-
+
+      - name: Install dependencies
+        run: |
+          composer remove --no-update --dev \
+              phan/phan phpstan/phpstan vimeo/psalm \
+              infection/infection friendsofphp/php-cs-fixer
+          composer update --prefer-dist --no-interaction --no-progress ${{ matrix.dependencies }}
+
+      - name: Execute tests
+        run: |
+          make ci-test
+
+      - name: Upload coverage report
+        continue-on-error: true
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          php vendor/bin/php-coveralls -v
+
+  analyze:
+    name: Static Analysis and Validation
+    runs-on: ubuntu-latest
+
+    env:
+      PHP_VERSION: '8.2'
+      COMPOSER_ROOT_VERSION: v5.99
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ast
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ env.PHP_VERSION }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            composer-${{ env.PHP_VERSION }}-
+            composer-
+
+      - name: Restore PHP-CS-Fixer cache
+        uses: actions/cache@v3
+        with:
+          path: build/cache/.php_cs.cache
+          key: php-cs-fixer-${{ env.PHP_VERSION }}-${{ hashFiles('composer.*') }}
+          restore-keys: |
+            php-cs-fixer-${{ env.PHP_VERSION }}-
+            php-cs-fixer-
+
+      - name: Install dependencies
+        run: |
+          composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Validate composer.json
+        run: |
+          make composer-validate
+
+      - name: Lint YAML files
+        run: |
+          make yamllint
+
+      - name: Non-code tests
+        run: |
+          php vendor/bin/phpunit --group=documentation
+
+      - name: Static Analysis
+        run: |
+          make ci-analyze --keep-going
