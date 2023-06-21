@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "sanmai/pipeline": "^6.8"
+        "sanmai/pipeline": "^6.8",
+        "tumblr/chorus-timekeeper": "^0.1.0"
     },
     "require-dev": {
         "ext-memcached": "*",
@@ -43,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "v0.1.x-dev"
+            "dev-main": "0.3.x-dev"
         }
     }
 }
