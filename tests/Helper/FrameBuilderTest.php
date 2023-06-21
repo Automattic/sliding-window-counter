@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
+ * The Sliding Window Counter, a short-lived time series library.
  * Copyright 2023 Automattic, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -12,11 +13,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
-declare(strict_types=1);
 
 namespace Tests\Automattic\SlidingWindowCounter\Helper;
 
@@ -25,6 +25,7 @@ use Automattic\SlidingWindowCounter\Helper\FrameBuilder;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Tumblr\Chorus\FakeTimeKeeper;
+
 use function max;
 use function min;
 use function Pipeline\take;
