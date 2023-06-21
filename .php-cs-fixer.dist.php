@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * The TimeKeeper.
+ * The Sliding Window Counter, a short-lived time series library.
  * Copyright 2023 Automattic, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  */
 
 $header = <<<'EOF'
-The TimeKeeper.
+The Sliding Window Counter, a short-lived time series library.
 Copyright 2023 Automattic, Inc.
 
 This program is free software; you can redistribute it and/or modify
