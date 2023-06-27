@@ -30,9 +30,9 @@ COMPOSER=$(PHP) $(shell which composer)
 
 # Infection
 INFECTION=vendor/bin/infection
-MIN_MSI=50
-MIN_COVERED_MSI=50
-INFECTION_ARGS=--min-msi=$(MIN_MSI) --min-covered-msi=$(MIN_COVERED_MSI) --threads=$(JOBS) --coverage=build/logs --show-mutations --no-interaction --only-covered --only-covering-test-cases
+MIN_MSI=84
+MIN_COVERED_MSI=84
+INFECTION_ARGS=--min-msi=$(MIN_MSI) --min-covered-msi=$(MIN_COVERED_MSI) --threads=$(JOBS) --coverage=build/logs --show-mutations --no-interaction
 
 all: test
 
