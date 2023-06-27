@@ -56,8 +56,8 @@ phpunit-coverage: cs prerequisites
 	rm -fr build/logs/*
 	$(SILENT) $(PHP) $(PHPUNIT) $(PHPUNIT_ARGS)
 
-.PHONY: infection
-infection: phpunit-coverage prerequisites infection.json.dist
+.PHONY: mt
+mt: phpunit-coverage prerequisites infection.json.dist
 	$(SILENT) $(PHP) $(INFECTION) $(INFECTION_ARGS)
 
 .PHONY: sa
