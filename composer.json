@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "sanmai/pipeline": "^6.8",
         "tumblr/chorus-timekeeper": "^0.1.0"
     },
