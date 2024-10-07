@@ -247,7 +247,7 @@ final class SlidingWindowCounterTest extends TestCase
 
         $this->assertSame(5, $counter->getHistoricVariance('test')->getCount());
 
-        $this->assertSame([
+        $this->assertSameSorted([
             'std_dev' => 7.24,
             'mean' => 6.82,
             'sensitivity' => 3,
