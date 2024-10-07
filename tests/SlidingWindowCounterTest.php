@@ -369,4 +369,17 @@ final class SlidingWindowCounterTest extends TestCase
             ->cast(fn (Frame $frame) => $frame->getValue())
             ->toArrayPreservingKeys();
     }
+
+    /**
+     * @param array $expected The expected array
+     * @param array $actual The actual array
+     * @param string $message The message to display on failure
+     * @return void
+     */
+    private function assertSameSorted(array $expected, array $actual, string $message = ''): void
+    {
+        ksort($expected);
+        ksort($actual);
+        $this->assertSame($expected, $actual, $message);
+    }
 }
