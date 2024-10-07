@@ -35,6 +35,7 @@ use function max;
 use function Pipeline\take;
 use function range;
 use function sprintf;
+use function ksort;
 
 /**
  * @covers \Automattic\SlidingWindowCounter\SlidingWindowCounter
