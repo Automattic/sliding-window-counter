@@ -34,8 +34,7 @@ class WPCacheAdapter implements CounterCache
          * The WordPress object cache instance.
          */
         private readonly WP_Object_Cache $cache
-    )
-    {
+    ) {
     }
 
     public function increment(string $cache_name, string $cache_key, int $ttl, int $step)
