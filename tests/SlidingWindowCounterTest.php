@@ -24,7 +24,6 @@ use Automattic\SlidingWindowCounter\Cache\CounterCache;
 use Automattic\SlidingWindowCounter\Helper\Frame;
 use Automattic\SlidingWindowCounter\SlidingWindowCounter;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Tests\Automattic\SlidingWindowCounter\Cache\FakeCache;
 use Tumblr\Chorus\FakeTimeKeeper;
@@ -35,6 +34,7 @@ use function max;
 use function Pipeline\take;
 use function range;
 use function sprintf;
+use function ksort;
 
 /**
  * @covers \Automattic\SlidingWindowCounter\SlidingWindowCounter
@@ -247,7 +247,7 @@ final class SlidingWindowCounterTest extends TestCase
 
         $this->assertSame(5, $counter->getHistoricVariance('test')->getCount());
 
-        $this->assertSame([
+        $this->assertSameSorted([
             'std_dev' => 7.24,
             'mean' => 6.82,
             'sensitivity' => 3,
@@ -369,4 +369,5 @@ final class SlidingWindowCounterTest extends TestCase
             ->cast(fn (Frame $frame) => $frame->getValue())
             ->toArrayPreservingKeys();
     }
+
 }

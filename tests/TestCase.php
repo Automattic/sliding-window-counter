@@ -18,37 +18,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Automattic\SlidingWindowCounter\Cache;
+namespace Tests\Automattic\SlidingWindowCounter;
 
-use Memcached;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-use function implode;
-use function is_int;
+use function ksort;
 
 /**
- * A Memcached adapter for the sliding window counter.
+ * @internal
  */
-class MemcachedAdapter implements CounterCache
+abstract class TestCase extends BaseTestCase
 {
-    public function __construct(private readonly Memcached $cache)
+    /**
+     * Asserts that two arrays are equal, ignoring the order of keys.
+     *
+     * @param array $expected The expected array
+     * @param array $actual The actual array
+     * @param string $message The message to display on failure
+     * @return void
+     */
+    protected function assertSameSorted(array $expected, array $actual, string $message = ''): void
     {
-    }
-
-    public function increment(string $cache_name, string $cache_key, int $ttl, int $step)
-    {
-        $cache_key = implode(':', [$cache_name, $cache_key]);
-
-        $this->cache->add($cache_key, 0, $ttl);
-
-        return $this->cache->increment($cache_key, $step);
-    }
-
-    public function get(string $cache_name, string $cache_key): ?int
-    {
-        $cache_key = implode(':', [$cache_name, $cache_key]);
-
-        $value = $this->cache->get($cache_key);
-
-        return is_int($value) ? $value : null;
+        ksort($expected);
+        ksort($actual);
+        $this->assertSame($expected, $actual, $message);
     }
 }

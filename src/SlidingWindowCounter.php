@@ -35,22 +35,19 @@ use function sprintf;
 class SlidingWindowCounter
 {
     /** @var string Memcached cache name to use for buckets. */
-    private string $cache_name;
+    private readonly string $cache_name;
 
     /** @var int The size of the window in seconds. */
-    private int $window_size;
+    private readonly int $window_size;
 
     /** @var int Maximum number of seconds for the buckets to last in cache. */
-    private int $observation_period;
-
-    /** @var Cache\CounterCache The counter cache instance */
-    private Cache\CounterCache $counter_cache;
+    private readonly int $observation_period;
 
     /** @var Chorus\TimeKeeper The timekeeper instance. */
-    private Chorus\TimeKeeper $time_keeper;
+    private readonly Chorus\TimeKeeper $time_keeper;
 
     /** @var Helper\FrameBuilder The frame builder. */
-    private Helper\FrameBuilder $frame_builder;
+    private readonly Helper\FrameBuilder $frame_builder;
 
     /**
      * Construct a new `SlidingWindowCounter`.
@@ -68,7 +65,8 @@ class SlidingWindowCounter
         string $cache_name,
         int $window_size,
         int $observation_period,
-        Cache\CounterCache $counter_cache,
+        /** @var Cache\CounterCache The counter cache instance */
+        private readonly Cache\CounterCache $counter_cache,
         Chorus\TimeKeeper $time_keeper = null,
         Helper\FrameBuilder $frame_builder = null
     ) {
@@ -89,7 +87,6 @@ class SlidingWindowCounter
         $this->cache_name = $cache_name;
         $this->window_size = $window_size;
         $this->observation_period = $observation_period;
-        $this->counter_cache = $counter_cache;
 
         // Optional dependencies
         $this->time_keeper = $time_keeper ?? new Chorus\TimeKeeper();

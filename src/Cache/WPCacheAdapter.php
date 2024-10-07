@@ -29,14 +29,12 @@ use function is_int;
  */
 class WPCacheAdapter implements CounterCache
 {
-    /**
-     * The WordPress object cache instance.
-     */
-    private WP_Object_Cache $cache;
-
-    public function __construct(WP_Object_Cache $cache)
-    {
-        $this->cache = $cache;
+    public function __construct(
+        /**
+         * The WordPress object cache instance.
+         */
+        private readonly WP_Object_Cache $cache
+    ) {
     }
 
     public function increment(string $cache_name, string $cache_key, int $ttl, int $step)
