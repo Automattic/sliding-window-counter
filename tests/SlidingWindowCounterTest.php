@@ -24,7 +24,6 @@ use Automattic\SlidingWindowCounter\Cache\CounterCache;
 use Automattic\SlidingWindowCounter\Helper\Frame;
 use Automattic\SlidingWindowCounter\SlidingWindowCounter;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Tests\Automattic\SlidingWindowCounter\Cache\FakeCache;
 use Tumblr\Chorus\FakeTimeKeeper;
@@ -371,16 +370,4 @@ final class SlidingWindowCounterTest extends TestCase
             ->toArrayPreservingKeys();
     }
 
-    /**
-     * @param array $expected The expected array
-     * @param array $actual The actual array
-     * @param string $message The message to display on failure
-     * @return void
-     */
-    private function assertSameSorted(array $expected, array $actual, string $message = ''): void
-    {
-        ksort($expected);
-        ksort($actual);
-        $this->assertSame($expected, $actual, $message);
-    }
 }

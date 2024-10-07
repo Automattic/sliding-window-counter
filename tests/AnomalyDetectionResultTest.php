@@ -21,9 +21,6 @@
 namespace Tests\Automattic\SlidingWindowCounter;
 
 use Automattic\SlidingWindowCounter\AnomalyDetectionResult;
-use PHPUnit\Framework\TestCase;
-
-use function ksort;
 
 /**
  * @covers \Automattic\SlidingWindowCounter\AnomalyDetectionResult
@@ -150,16 +147,4 @@ final class AnomalyDetectionResultTest extends TestCase
         $this->assertSame($expected_direction, $result->getDirection(), 'Unexpected direction');
     }
 
-    /**
-     * @param array $expected The expected array
-     * @param array $actual The actual array
-     * @param string $message The message to display on failure
-     * @return void
-     */
-    private function assertSameSorted(array $expected, array $actual, string $message = ''): void
-    {
-        ksort($expected);
-        ksort($actual);
-        $this->assertSame($expected, $actual, $message);
-    }
 }
