@@ -20,9 +20,9 @@
 
 namespace Tests\Automattic\SlidingWindowCounter;
 
-use function ksort;
-
 use PHPUnit\Framework\TestCase as BaseTestCase;
+
+use function ksort;
 
 /**
  * @internal
