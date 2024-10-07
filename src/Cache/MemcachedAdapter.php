@@ -30,11 +30,8 @@ use function is_int;
  */
 class MemcachedAdapter implements CounterCache
 {
-    private Memcached $cache;
-
-    public function __construct(Memcached $memcached)
+    public function __construct(private readonly Memcached $cache)
     {
-        $this->cache = $memcached;
     }
 
     public function increment(string $cache_name, string $cache_key, int $ttl, int $step)

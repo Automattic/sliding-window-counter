@@ -28,12 +28,6 @@ use function intdiv;
  */
 class Frame
 {
-    /** @var int Frame's reference timestamp */
-    private int $time;
-
-    /** @var int The window size */
-    private int $window_size;
-
     /** @var float The current value */
     private ?float $value = null;
 
@@ -43,10 +37,8 @@ class Frame
      * @param int $time the frame's reference time
      * @param int<1, max> $window_size the window size
      */
-    public function __construct(int $time, int $window_size)
+    public function __construct(private readonly int $time, private readonly int $window_size)
     {
-        $this->time = $time;
-        $this->window_size = $window_size;
     }
 
     /**

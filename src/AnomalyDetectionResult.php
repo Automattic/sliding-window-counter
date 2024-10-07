@@ -48,23 +48,11 @@ class AnomalyDetectionResult
      */
     public const DIRECTION_DOWN = 'down';
 
-    /** @var float The standard deviation */
-    private float $std_dev;
-
-    /** @var float The mean value */
-    private float $mean;
-
-    /** @var int The sensitivity */
-    private int $sensitivity;
-
     /** @var float The low bound */
-    private float $low;
+    private readonly float $low;
 
     /** @var float The high bound */
-    private float $high;
-
-    /** @var float The latest value */
-    private float $latest;
+    private readonly float $high;
 
     /** @var string The direction of the anomaly */
     private string $direction = self::DIRECTION_NONE;
@@ -80,15 +68,10 @@ class AnomalyDetectionResult
      * @param float $latest The latest value
      * @param int $sensitivity The sensitivity (see `SlidingWindowCounter::detectAnomaly()`)
      */
-    public function __construct(float $std_dev, float $mean, float $latest, int $sensitivity)
+    public function __construct(private readonly float $std_dev, private readonly float $mean, private readonly float $latest, private readonly int $sensitivity)
     {
-        $this->std_dev = $std_dev;
-        $this->mean = $mean;
-        $this->latest = $latest;
-        $this->sensitivity = $sensitivity;
-
-        $this->high = ceil($this->mean + ($sensitivity * $this->std_dev));
-        $this->low = floor($this->mean - ($sensitivity * $this->std_dev));
+        $this->high = ceil($this->mean + ($this->sensitivity * $this->std_dev));
+        $this->low = floor($this->mean - ($this->sensitivity * $this->std_dev));
 
         if ($this->latest >= $this->low && $this->latest <= $this->high) {
             return;

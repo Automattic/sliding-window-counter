@@ -30,15 +30,6 @@ use function max;
  */
 class FrameBuilder
 {
-    /** @var int<1, max> The size of the window in seconds. */
-    private int $window_size;
-
-    /** @var int Maximum number of seconds for the buckets to last in cache. */
-    private int $observation_period;
-
-    /** @var Chorus\TimeKeeper The timekeeper instance. */
-    private Chorus\TimeKeeper $time_keeper;
-
     /**
      * FrameBuilder constructor.
      *
@@ -46,11 +37,8 @@ class FrameBuilder
      * @param int $observation_period maximum number of seconds for the buckets to last in cache
      * @param Chorus\TimeKeeper $time_keeper the timekeeper instance
      */
-    public function __construct(int $window_size, int $observation_period, Chorus\TimeKeeper $time_keeper)
+    public function __construct(private readonly int $window_size, private readonly int $observation_period, private readonly Chorus\TimeKeeper $time_keeper)
     {
-        $this->window_size = $window_size;
-        $this->observation_period = $observation_period;
-        $this->time_keeper = $time_keeper;
     }
 
     /**
