@@ -241,10 +241,10 @@ class SlidingWindowCounter
      * Tests the standard deviation against the acceptable range and returns the alert message.
      *
      * @param string $bucket_key The bucket key
-     * @param int $sensitivity The sensitivity: 3 = low (99.7%), 2 = standard (95%) 1 = high (68% deviation triggers alert)
+     * @param float|int $sensitivity The sensitivity: 3 = low (99.7%), 2 = standard (95%) 1 = high (68% deviation triggers alert)
      * @param null|int $start_time The optional start time; leaving out the start time will omit the leading null values
      */
-    public function detectAnomaly(string $bucket_key, int $sensitivity = 2, ?int $start_time = null): AnomalyDetectionResult
+    public function detectAnomaly(string $bucket_key, float|int $sensitivity = 2, ?int $start_time = null): AnomalyDetectionResult
     {
         $variance = $this->getHistoricVariance($bucket_key, $start_time);
 

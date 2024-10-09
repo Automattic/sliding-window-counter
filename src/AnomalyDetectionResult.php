@@ -54,8 +54,8 @@ class AnomalyDetectionResult
     /** @var float The mean value */
     private float $mean;
 
-    /** @var int The sensitivity */
-    private int $sensitivity;
+    /** @var float|int The sensitivity */
+    private float|int $sensitivity;
 
     /** @var float The low bound */
     private float $low;
@@ -78,9 +78,9 @@ class AnomalyDetectionResult
      * @param float $std_dev The standard deviation
      * @param float $mean The mean value
      * @param float $latest The latest value
-     * @param int $sensitivity The sensitivity (see `SlidingWindowCounter::detectAnomaly()`)
+     * @param float|int $sensitivity The sensitivity (see `SlidingWindowCounter::detectAnomaly()`)
      */
-    public function __construct(float $std_dev, float $mean, float $latest, int $sensitivity)
+    public function __construct(float $std_dev, float $mean, float $latest, float|int $sensitivity)
     {
         $this->std_dev = $std_dev;
         $this->mean = $mean;
@@ -145,7 +145,7 @@ class AnomalyDetectionResult
     /**
      * The sensitivity.
      */
-    public function getSensitivity(): int
+    public function getSensitivity(): float|int
     {
         return $this->sensitivity;
     }
