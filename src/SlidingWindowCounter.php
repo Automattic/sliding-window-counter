@@ -249,6 +249,7 @@ class SlidingWindowCounter
         $variance = $this->getHistoricVariance($bucket_key, $start_time);
 
         return new AnomalyDetectionResult(
+            $variance->getCount(),
             $variance->getStandardDeviation(),
             $variance->getMean(),
             $this->getLatestValue($bucket_key),

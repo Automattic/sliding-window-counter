@@ -113,7 +113,7 @@ final class SlidingWindowCounterTest extends TestCase
         $window_size = 60;
         $observation_period = 1000;
 
-        $counter = new SlidingWindowCounter('default', 60, $observation_period, new FakeCache(), $time_keeper);
+        $counter = new SlidingWindowCounter('default', $window_size, $observation_period, new FakeCache(), $time_keeper);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/The time provided \(\d+\) is too far in the past \(current time: \d+, observation period: 1000\)/');
@@ -248,6 +248,7 @@ final class SlidingWindowCounterTest extends TestCase
         $this->assertSame(5, $counter->getHistoricVariance('test')->getCount());
 
         $this->assertSame([
+            'count' => 5,
             'std_dev' => 7.24,
             'mean' => 6.82,
             'sensitivity' => 3,
