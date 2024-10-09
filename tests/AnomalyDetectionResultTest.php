@@ -35,12 +35,13 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testHappyPath(): void
     {
-        $result = new AnomalyDetectionResult(0.999, 10.0, 11.0, 1);
+        $result = new AnomalyDetectionResult(10, 0.999, 10.0, 11.0, 1);
 
         $this->assertFalse($result->isAnomaly());
         $this->assertSame(AnomalyDetectionResult::DIRECTION_NONE, $result->getDirection());
 
         $this->assertSame([
+            'count' => 10,
             'std_dev' => 1.0,
             'mean' => 10.0,
             'sensitivity' => 1,
@@ -57,8 +58,9 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testAllGetters(): void
     {
-        $result = new AnomalyDetectionResult(1.0, 10.0, 11.0, 0.9);
+        $result = new AnomalyDetectionResult(11, 1.0, 10.0, 11.0, 0.9);
 
+        $this->assertSame(11, $result->getCount());
         $this->assertSame(1.0, $result->getStandardDeviation());
         $this->assertSame(10.0, $result->getMean());
         $this->assertSame(0.9, $result->getSensitivity());
@@ -74,11 +76,12 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testAnomalyDirectionUp(): void
     {
-        $result = new AnomalyDetectionResult(1.0, 10.0, 12.011, 1);
+        $result = new AnomalyDetectionResult(22, 1.0, 10.0, 12.011, 1);
 
         $this->assertTrue($result->isAnomaly());
 
         $this->assertSame([
+            'count' => 22,
             'std_dev' => 1.0,
             'mean' => 10.0,
             'sensitivity' => 1,
@@ -95,11 +98,12 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testAnomalyDetectionDown(): void
     {
-        $result = new AnomalyDetectionResult(1.0, 10.0, 1.123456, 3);
+        $result = new AnomalyDetectionResult(33, 1.0, 10.0, 1.123456, 3);
 
         $this->assertTrue($result->isAnomaly());
 
         $this->assertSame([
+            'count' => 33,
             'std_dev' => 1.0,
             'mean' => 10.0,
             'sensitivity' => 3,
@@ -142,7 +146,7 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testDirections(float $latest, bool $expected_is_anomaly, string $expected_direction): void
     {
-        $result = new AnomalyDetectionResult(1.0, 10.0, $latest, 1);
+        $result = new AnomalyDetectionResult(100, 1.0, 10.0, $latest, 1);
 
         $this->assertSame($expected_is_anomaly, $result->isAnomaly(), 'Unexpected anomaly result');
         $this->assertSame($expected_direction, $result->getDirection(), 'Unexpected direction');

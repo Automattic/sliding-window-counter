@@ -48,6 +48,9 @@ class AnomalyDetectionResult
      */
     public const DIRECTION_DOWN = 'down';
 
+    /** @var int The number of observations */
+    private int $count;
+
     /** @var float The standard deviation */
     private float $std_dev;
 
@@ -75,13 +78,15 @@ class AnomalyDetectionResult
     /**
      * Create a new anomaly detection result instance.
      *
+     * @param int $count The number of observations
      * @param float $std_dev The standard deviation
      * @param float $mean The mean value
      * @param float $latest The latest value
      * @param float|int $sensitivity The sensitivity (see `SlidingWindowCounter::detectAnomaly()`)
      */
-    public function __construct(float $std_dev, float $mean, float $latest, float|int $sensitivity)
+    public function __construct(int $count, float $std_dev, float $mean, float $latest, float|int $sensitivity)
     {
+        $this->count = $count;
         $this->std_dev = $std_dev;
         $this->mean = $mean;
         $this->latest = $latest;
@@ -124,6 +129,14 @@ class AnomalyDetectionResult
             fn ($val) => is_float($val) ? round($val, $precision) : $val,
             get_object_vars($this)
         );
+    }
+
+    /**
+     * The number of observations
+     */
+    public function getCount(): int
+    {
+        return $this->count;
     }
 
     /**
