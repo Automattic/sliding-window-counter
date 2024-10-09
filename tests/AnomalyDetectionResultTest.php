@@ -57,11 +57,11 @@ final class AnomalyDetectionResultTest extends TestCase
      */
     public function testAllGetters(): void
     {
-        $result = new AnomalyDetectionResult(1.0, 10.0, 11.0, 1);
+        $result = new AnomalyDetectionResult(1.0, 10.0, 11.0, 0.9);
 
         $this->assertSame(1.0, $result->getStandardDeviation());
         $this->assertSame(10.0, $result->getMean());
-        $this->assertSame(1, $result->getSensitivity());
+        $this->assertSame(0.9, $result->getSensitivity());
         $this->assertSame(9.0, $result->getLow());
         $this->assertSame(11.0, $result->getHigh());
         $this->assertSame(11.0, $result->getLatest());
