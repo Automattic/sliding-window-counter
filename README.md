@@ -1,7 +1,7 @@
 # Sliding Window Counter
 
 ```
-composer install automattic/sliding-window-counter
+composer require automattic/sliding-window-counter
 ```
 
 ## What's this all about?
